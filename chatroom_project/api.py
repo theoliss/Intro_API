@@ -9,11 +9,7 @@ from datetime import datetime
 app = FastAPI()
 
 
-class Chatroom:
-    def __init__(self, name: str):
-        self.uid = str(uuid.uuid4())
-        self.name = name
-        self.messages = [Message]
+
 
 class Message:
     def __init__(self, author: str, message):
@@ -21,8 +17,13 @@ class Message:
         self.message = message
         self.uid = str(uuid.uuid4())
         self.date = datetime.now()
-
-chatrooms = {int : Chatroom}
+class Chatroom:
+    def __init__(self, name: str):
+        self.uid = str(uuid.uuid4())
+        self.name = name
+        self.messages = list[Message]
+        
+chatrooms: dict[str : Chatroom] = {}
 
 @app.post("/message/{room_id}", tags=['message'])
 def post_a_message(room_id: str, message: MessageIn):
@@ -30,11 +31,13 @@ def post_a_message(room_id: str, message: MessageIn):
         raise HTTPException(status_code=404, detail="Chatroom not found")
     msg = Message(message.author, message.message)
     chatrooms[room_id].messages.append(msg)
+    return "Message successfully sent!"
     
 
 @app.get("/message/{room_id}", tags=['message'])
 def get_messages(room_id: str) -> ChatRoomOut:
-    return ChatRoomOut(room_id, chatrooms[room_id].name, chatrooms[room_id].messages)
+    room = chatrooms[room_id]
+    return ChatRoomOut(uid= room_id, name= room.name, messages= room.messages)
 
 @app.delete("/message/{message_id}", tags=['message'])
 def delete_a_message(message_id: str):
