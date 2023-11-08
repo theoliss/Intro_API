@@ -11,7 +11,7 @@ def test_root_not_found():
 def test_create_chatroom():
     room_to_send = crpM.ChatRoomIn(name = "test_room")
     received = client.post('/chatroom', json= room_to_send.model_dump(mode="jason"))
-    assert received.json() == "Your chatroom has been created under the roomID: {room.uid}"
+    assert received.json()['name'] ==  "test_room"
     assert received.status_code == 200
 
 def test_delete_chatroom():
