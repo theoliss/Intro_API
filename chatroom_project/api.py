@@ -30,6 +30,7 @@ def post_a_message(room_id: str, message: MessageIn):
         raise HTTPException(status_code=404, detail="Chatroom not found")
     msg = Message(message.author, message.message)
     chatrooms[room_id].messages.append(msg)
+    return {"ok": "ok"}
     
 
 @app.get("/message/{room_id}", tags=['message'])
