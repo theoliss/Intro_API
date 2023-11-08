@@ -13,20 +13,18 @@ from datetime import datetime
 app = FastAPI()
 
 
-
-
 class Message:
     def __init__(self, author: str, message):
         self.author = author
         self.message = message
         self.uid = str(uuid.uuid4())
-        self.date = datetime.now()
+        self.date = str(datetime.now())
 class Chatroom:
     def __init__(self, name: str):
         self.uid = str(uuid.uuid4())
         self.name = name
-        self.messages = list[Message]
-        
+        self.messages = []
+
 chatrooms: dict[str : Chatroom] = {}
 
 @app.post("/message/{room_id}", tags=['message'])
@@ -34,7 +32,7 @@ def post_a_message(room_id: str, message: MessageIn):
     if room_id not in chatrooms:
         raise HTTPException(status_code=404, detail="Chatroom not found")
     msg = Message(message.author, message.message)
-    chatrooms[room_id].messages.append(msg)
+    chatrooms[room_id].messages.append(MessageOut(uid=msg.uid, author=msg.author, message=msg.message, date=msg.date))
     return "Message successfully sent!"
     
 
