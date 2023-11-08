@@ -31,7 +31,7 @@ def test_get_chatrooms():
     response = client.get('/chatroom')
     assert response.status_code == 200
 
-def post_message():
+def test_post_message():
     room_to_send = crpM.ChatRoomIn(name = "test_room")
     the_room = client.post('/chatroom', json = room_to_send.model_dump(mode="json"))
     room_id = the_room.json()['uid']
