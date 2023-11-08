@@ -18,6 +18,6 @@ class ChatRoomOut(BaseModel):
 class ChatRoomIn(BaseModel):
     name: str
 
-class ChatRoomList(BaseModel):
+class ChatRoomInfo(BaseModel):
     uid: str
     name: str

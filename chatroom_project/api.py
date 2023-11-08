@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
 
-from chatroom_project.models import MessageIn, MessageOut, ChatRoomIn, ChatRoomOut
+from models import MessageIn, MessageOut, ChatRoomIn, ChatRoomOut, ChatRoomInfo
 
 import uuid
 from datetime import datetime
@@ -46,11 +46,17 @@ def delete_chatroom(room_id: str):
     if room_id not in chatrooms:
         raise HTTPException(status_code=404, detail="Chatroom not found")
     
+@app.get("/chatroom", tags=['chatroom'])
+def get_chatrooms() -> list[ChatRoomInfo]:
+    chat_list = []
+    for room in chatrooms.values():
+        chat_list.append(ChatRoomInfo(uid= room.uid, name= room.name))
+    return chat_list
 
 @app.post("/chatroom", tags=['chatroom'])
 def create_a_chatroom(chatroom: ChatRoomIn):
     room = Chatroom(chatroom.name)
     chatrooms[room.uid] = room
-    return f"Your chatroom has been created under the roomID: {room.uid}"
+    return ChatRoomInfo(uid= room.uid, name= room.name)
 
 
