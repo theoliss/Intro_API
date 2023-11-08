@@ -11,7 +11,7 @@ app = FastAPI()
 
 class Chatroom:
     def __init__(self, name: str):
-        self.uid = uuid.uuid4()
+        self.uid = str(uuid.uuid4())
         self.name = name
         self.messages = [Message]
 
@@ -19,7 +19,7 @@ class Message:
     def __init__(self, author: str, message):
         self.author = author
         self.message = message
-        self.uid = uuid.uuid4()
+        self.uid = str(uuid.uuid4())
         self.date = datetime.now()
 
 chatrooms = {int : Chatroom}
