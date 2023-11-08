@@ -1,7 +1,11 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
+import os.path
 
-from models import MessageIn, MessageOut, ChatRoomIn, ChatRoomOut, ChatRoomInfo
+if os.path.isfile('models.py'):
+    from models import MessageIn, MessageOut, ChatRoomIn, ChatRoomOut, ChatRoomInfo
+else :
+    from chatroom_project.models import MessageIn, MessageOut, ChatRoomIn, ChatRoomOut, ChatRoomInfo
 
 import uuid
 from datetime import datetime

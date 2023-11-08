@@ -12,6 +12,6 @@ To execute the Dockerfile you have to execute the command :
 
 ```bash
 
-docker run -it -v ./db:/database -p 8000:8000 <name_you_chose> 
+docker run -it -p 8000:8000 <name_you_chose> 
 
 ```
