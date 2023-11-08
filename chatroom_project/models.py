@@ -9,7 +9,6 @@ class MessageOut(BaseModel):
     author: str
     message: str
     date: str
-    author_profile_picture: str
 
 class ChatRoomOut(BaseModel):
     uid: str
@@ -18,4 +17,7 @@ class ChatRoomOut(BaseModel):
 
 class ChatRoomIn(BaseModel):
     name: str
-    # topic, avatar, tags, ??
+
+class ChatRoomList(BaseModel):
+    uid: str
+    name: str
