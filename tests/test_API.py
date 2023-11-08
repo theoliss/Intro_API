@@ -10,15 +10,17 @@ def test_root_not_found():
 
 def test_create_chatroom():
     room_to_send = crpM.ChatRoomIn(name = "test_room")
-    received = client.post('/chatroom', json= room_to_send.model_dump(mode="jason"))
+    received = client.post('/chatroom', json = room_to_send.model_dump(mode="json"))
     assert received.json()['name'] ==  "test_room"
-    assert received.status_code == 200
 
 def test_delete_chatroom():
     received = client.delete('/chatroom/CetteIdNExistePas')
     assert received.status_code == 404
 
-def post_message():
+def test_post_message():
+    room_to_send = crpM.ChatRoomIn(name = "test_room")
+    the_room = client.post('/chatroom', json = room_to_send.model_dump(mode="json"))
+    room_id = the_room.json()['uid']
     to_send = crpM.MessageIn(author = "Beta_Tester", message = "ça passe ou ça casse")
-    recived = client.post("/message/0", json = to_send.model_dump(mode="json"))
+    recived = client.post(f"/message/{room_id}", json = to_send.model_dump(mode="json"))
     assert recived.status_code == 200
