@@ -43,12 +43,14 @@ def get_messages(room_id: str) -> ChatRoomOut:
 
 @app.delete("/message/{message_id}", tags=['message'])
 def delete_a_message(message_id: str):
-    pass #TODO code this
+    pass
 
 @app.delete("/chatroom/{room_id}", tags=['chatroom'])
 def delete_chatroom(room_id: str):
     if room_id not in chatrooms:
         raise HTTPException(status_code=404, detail="Chatroom not found")
+    chatrooms.pop(room_id)
+    return "Chatroom deleted successfully"
     
 @app.get("/chatroom", tags=['chatroom'])
 def get_chatrooms() -> list[ChatRoomInfo]:
